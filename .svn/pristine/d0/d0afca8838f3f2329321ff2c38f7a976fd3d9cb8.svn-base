@@ -1,0 +1,383 @@
+{% extends 'content.html' %}
+{% block head %}
+    {% include 'head.html' %}
+{% endblock head %}
+{% block header %}
+    {% include 'header.html' %}
+{% endblock header %}
+{% block aside %}
+    {% include 'aside.html' %}
+{% endblock aside %}
+{% block footer %}
+    {% include 'footer.html' %}
+{% endblock footer %}
+
+{% block custom_head %}
+    <!--link rel="stylesheet"
+        href="http://10.134.104.40/django_statics/AdminLTE/bower_components/select2/dist/css/select2.min.css"-->
+    <link rel="stylesheet"
+          href="http://10.134.104.40/django_statics/AdminLTE/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet"
+          href="http://10.134.104.40/django_statics/AdminLTE/bower_components/Ionicons/css/ionicons.min.css">
+{% endblock custom_head %}
+
+{% block custom_script %}
+    <script src="http://10.134.104.40/django_statics/AdminLTE/bower_components/datatables.net/js/jquery.dataTables.min.js">
+    </script>
+    <script
+            src="http://10.134.104.40/django_statics/AdminLTE/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js">
+    </script>
+    <script src="http://10.134.104.40/django_statics/AdminLTE/bower_components/jquery-slimscroll/jquery.slimscroll.min.js">
+    </script>
+    <script>
+
+
+        $(document).ready(function () {
+            $('#mission_list').DataTable({
+                'paging': true,
+                'lengthChange': false,
+                'searching': false,
+                'ordering': true,
+                'info': true,
+                'autoWidth': false,
+                "language": {
+                    "info": "第_PAGE_页(共_PAGES_页)",
+                    "infoEmpty": "第0页(共0页)",
+                    "emptyTable": "无可用数据",
+                    "paginate": {
+                        "last": "第一页",
+                        "next": "下一页",
+                        "previous": "上一页",
+                        "last": "最后一页",
+                    }
+                },
+                'order': [[0, "desc"]]
+            });
+        });
+    </script>
+{% endblock custom_script %}
+
+<!-- Content Header -->
+{% block content_head %}
+    <section class="content-header">
+        <h1>
+            欢迎来到质保平台
+            <small>Secure. Contain. Protect.</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i>质量保障平台</a></li>
+            <li class="active">前端自测回归</li>
+        </ol>
+    </section>
+{% endblock content_head %}
+
+<!-- Main content -->
+{% block content_body %}
+    <section class="content container-fluid">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">前端自测回归</h3>
+                    </div>
+                    <section class="content">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="box box-info">
+                                    <div class="box-header with-border">任务添加<span id="error_xml"
+                                                                                  style="color: red;"></span></div>
+                                    <form class="form-horizontal" id="form-add">
+
+                                        <div class="box-body">
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">BaseNode</label>
+                                                <div class="col-sm-10">
+                                                    <input class="form-control" id="baseNode" name="baseNode"
+                                                           value="master"
+                                                           placeholder="填写base代码Node的git分支，如果不填，使用master分支">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">BaseNginx</label>
+                                                <div class="col-sm-10">
+                                                    <input class="form-control" id="baseNginx" name="baseNginx"
+                                                           value="http://svn.sogou-inc.com/svn/websearch4/web/web_front/websearch/tags/nginx/mobile_web/2019/20191121.req.1"
+                                                           placeholder="填写base代码Nginx的svn地址">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2  control-label">
+                                                    <i class="fa fa-star" style="color: red"><span style="color: black">TestNode</span></i>
+                                                </label>
+                                                <div class="col-sm-10">
+                                                    <input class="form-control" id="testNode" name="testNode"
+                                                           placeholder="填写test代码Node的git分支">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">
+                                                    <i class="fa fa-star" style="color: red"><span style="color: black">TestNginx</span></i>
+                                                </label>
+                                                <div class="col-sm-10">
+                                                    <input class="form-control" id="testNginx" name="testNginx"
+                                                           placeholder="填写test代码Nginx的svn">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">base机器</label>
+                                                <div class="col-sm-4">
+                                                    <input class="form-control" id="baseIp" name="baseIp"
+                                                           placeholder="ip">
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <input class="form-control" id="baseUser" name="baseUser" 
+                                                    value="root"
+                                                           placeholder="user">
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <input class="form-control" id="basePass" name="basePass"
+                                                           placeholder="password">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2  control-label">
+                                                    <i class="fa fa-star" style="color: red"><span style="color: black">Test机器</span></i>
+                                                </label>
+                                                <div class="col-sm-4">
+                                                    <input class="form-control" id="testIp" name="testIp"
+                                                           placeholder="ip">
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <input class="form-control" id="testUser" name="testUser"
+                                                     value="root"
+                                                           placeholder="user">
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <input class="form-control" id="testPass" name="testPass"
+                                                           placeholder="password">
+                                                </div>
+                                            </div> 
+
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">是否执行jenkins部署</label>
+                                                <div class="radio col-sm-10">
+                                                    <label><input type="radio" name="skipRadios" value="execute" checked>
+                                                        是
+                                                    </label>
+                                                    <label><input type="radio" name="skipRadios" value="skip">
+                                                        否</label>
+                                                </div>
+                                            </div>                                           
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">备注信息</label>
+                                                <div class="col-sm-10">
+                                                    <input class="form-control" id="tag" name="tag"
+                                                           placeholder="这里填入注释">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group col-sm-12">
+                                                <div class="radio">
+                                                    <label><input type="radio" name="typeRadios" value="pc" checked>pc
+                                                    </label>
+                                                    <label><input type="radio" name="typeRadios" value="wap">
+                                                        wap</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-sm-12">
+                                                <div class="checkbox">
+                                                    <label><input type="checkbox" name=typeCheck[] value="pic" checked>PIC系统图像对比</label>
+                                                    <label><input type="checkbox" name=typeCheck[] value="pagetest">Pagetest回归测试</label>
+                                                    <label><input type="checkbox" name=typeCheck[] value="interface">特殊结果接口比对</label>
+                                                    <label><input type="checkbox" name=typeCheck[] value="press">自动压力测试</label>
+                                                    <label><input type="checkbox" name=typeCheck[] value="uts">UTS交互验证测试</label>
+                                                    <label><input type="checkbox" name=typeCheck[] value="juhe">聚合检查
+                                                    </label>
+                                                    <label><input type="checkbox" name=typeCheck[] value="struct">结构化检查</label>
+                                                    <label><input type="checkbox" name=typeCheck[] value="realmonitor">时效性监控</label>
+                                                    <label><input type="checkbox" name=typeCheck[] value="pingback">Pingback流程</label>
+                                                    <label><input type="checkbox" name=typeCheck[] value="security">安全扫描</label>                        
+                                                    <label><input type="checkbox" name=typeCheck[] value="deadlink">死链检测</label>                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="box-footer">
+                                            <button class="btn btn-primary" type="button" id="addAuto">提交</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="col-md-7">
+                                <div class="box box-info">
+                                    <div class="box-header with-border">列表</div>
+                                    <form class="form">
+                                        <div class="box-body">
+                                            <table>
+                                                <tbody>
+                                                <tr>
+                                                    <th>id</th>
+                                                    <th>type</th>
+                                                    <th class="col-sm-1">tag</th>
+                                                    <th class="col-sm-1">user</th>
+                                                    <th class="col-sm-1">PIC系统图像对比</th>
+                                                    <th class="col-sm-1">Pagetest回归测试</th>
+                                                    <th class="col-sm-1">特殊结果接口比对</th>
+                                                    <th class="col-sm-1">自动压力测试</th>
+                                                    <th class="col-sm-1">UTS交互验证测试</th>
+                                                    <th class="col-sm-1">status</th>
+                                                    <th class="col-sm-1">操作</th>
+                                                </tr>
+                                                {% for item in list %}
+                                                    <tr req_id="{{ item.id }}">
+
+                                                        <td>{{ item.id }}</td>
+                                                        <td>{{ item.type }}</td>
+                                                        <td class="col-sm-1">{{ item.tag }}</td>
+                                                        <td class="col-sm-1">{{ item.user }}</td>
+                                                        <td class="col-sm-1">
+                                                            {% ifequal item.isPic 1 %}
+                                                                <h5>是</h5>
+                                                            {% else %}
+                                                                <h5>否</h5>
+                                                            {% endifequal %}
+                                                        </td>
+                                                        <td class="col-sm-1">
+                                                            {% ifequal item.isPagetest 1 %}
+                                                                <h5>是</h5>
+                                                            {% else %}
+                                                                <h5>否</h5>
+                                                            {% endifequal %}
+                                                        </td>
+                                                        <td class="col-sm-1">
+                                                            {% ifequal item.isInterface 1 %}
+                                                                <h5>是</h5>
+                                                            {% else %}
+                                                                <h5>否</h5>
+                                                            {% endifequal %}
+                                                        </td>
+                                                        <td class="col-sm-1">
+                                                            {% ifequal item.isPress 1 %}
+                                                                <h5>是</h5>
+                                                            {% else %}
+                                                                <h5>否</h5>
+                                                            {% endifequal %}
+                                                        </td>
+                                                        <td class="col-sm-1">
+                                                            {% ifequal item.isUts 1 %}
+                                                                <h5>是</h5>
+                                                            {% else %}
+                                                                <h5>否</h5>
+                                                            {% endifequal %}
+                                                        </td>
+                                                        <td class="col-sm-1">
+                                                            <a href="/autoFront/detailst_{{ item.id }}.html">
+                                                                {% ifequal item.status 0 %}
+                                                                    <font color="gray">Waiting</font>
+                                                                {% endifequal %}
+                                                                {% ifequal item.status 1 %}
+                                                                    <font color="cream">Ready</font>
+                                                                {% endifequal %}
+                                                                {% ifequal item.status 2 %}
+                                                                    <font color="green">Running</font>
+                                                                {% endifequal %}
+                                                                {% ifequal item.status 3 %}
+                                                                    <font color="red">Error</font>
+                                                                {% endifequal %}
+                                                                {% ifequal item.status 4 %}
+                                                                    <font color="blue">Finished</font>
+                                                                {% endifequal %}
+                                                                {% ifequal item.status 5 %}
+                                                                    <font color="orange">Canceled</font>
+                                                                {% endifequal %}
+                                                                {% ifequal item.status 6 %}
+                                                                    <font color="orange">Canceling</font>
+                                                                {% endifequal %}
+                                                            </a>
+                                                        <td class="col-sm-1">
+                                                            <button type="button"
+                                                                    class="btn btn-block btn-success del_line">删除
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <nav aria-label="Page navigation">
+                                            <ul class="pagination">
+                                                {{ page_str }}
+                                            </ul>
+                                        </nav>
+                                        </nav>
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+                    </section>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        $('#addAuto').click(function () {
+
+            //var testNode = $('#testNode').val();
+            //var testNginx = $('#testNginx').val();
+            var testIp = $('#testIp').val();
+            var testUser = $('#testUser').val();
+            var testPass = $('#testPass').val();
+            if (testIp != "" && testUser != "" && testPass!="") {
+                $.ajax({
+                    type: "POST",
+                    url: "/autoFront/selftestadd/",
+                    async: true,
+                    traditional: true,
+                    data: $('#form-add').serialize(),
+                    dataType: 'JSON',
+                    success: function (obj) {
+                        if (obj.status) {
+                            location.reload();
+                        } else {
+                            $("#error_xml").text(obj.error)
+                        }
+                    },
+                    error: function (obj) {
+                        $("#error_xml").text(obj.error)
+                    },
+                });
+            } else {
+                $("#error_xml").text(' testIp和testUser和testPass不可为空，请检查！')
+            }
+        });
+
+        $('.del_line').click(function () {
+            var line_id = $(this).parent().parent().attr('req_id');
+            $.ajax({
+                type: "POST",
+                url: "/autoFront/selftestdel/",
+                async: true,
+                data: {
+                    'line_id': line_id
+                },
+                dataType: 'JSON',
+                success: function (obj) {
+                    if (obj.status) {
+                        location.reload();
+                    } else {
+                        $('#error_xml').text(obj.error);
+                    }
+                },
+                error: function () {
+                }
+            });
+
+        })
+    </script>
+	
+	<div class="machine_status" style="display:none">
+		
+	</div>
+	
+{% endblock content_body %}

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    {% block head %}
+    {% endblock head %}
+    {% block custom_head %}
+    {% endblock custom_head %}
+</head>
+<!--
+BODY TAG OPTIONS:
+=================
+Apply one or more of the following classes to get the
+desired effect
+|---------------------------------------------------------|
+| SKINS         | skin-blue                               |
+|               | skin-black                              |
+|               | skin-purple                             |
+|               | skin-yellow                             |
+|               | skin-red                                |
+|               | skin-green                              |
+|---------------------------------------------------------|
+|LAYOUT OPTIONS | fixed                                   |
+|               | layout-boxed                            |
+|               | layout-top-nav                          |
+|               | sidebar-collapse                        |
+|               | sidebar-mini                            |
+|---------------------------------------------------------|
+-->
+
+<body class="hold-transition skin-blue sidebar-mini">
+    <!-- jQuery 3 -->
+    <script src="http://10.134.104.40/django_statics/AdminLTE/bower_components/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap 3.3.7 -->
+    <script src="http://10.134.104.40/django_statics/AdminLTE/bower_components/bootstrap/dist/js/bootstrap.min.js">
+    </script>
+    <!-- AdminLTE App -->
+    <script src="http://10.134.104.40/django_statics/AdminLTE/dist/js/adminlte.min.js"></script>
+
+    <!-- Optionally, you can add Slimscroll and FastClick plugins.
+        Both of these plugins are recommended to enhance the user experience. -->
+    <script>
+        $(function () {
+            $('.sidebar-menu li:not(.treeview) > a').on('click', function () {
+                var $parent = $(this).parent().addClass('active');
+                $parent.siblings('.treeview.active').find('> a').trigger('click');
+                $parent.siblings().removeClass('active').find('li').removeClass('active');
+            });
+
+            $(window).on('load', function () {
+                $('.sidebar-menu a').each(function () {
+                    if (this.href === window.location.href.split('#')[0]) {
+                        $(this).parent().addClass('active')
+                            .closest('.treeview-menu').addClass('.menu-open')
+                            .closest('.treeview').addClass('active');
+                    }
+                });
+            });
+        });
+    </script>
+    {% block custom_script %}
+    {% endblock custom_script %}
+
+
+    <div class="wrapper">
+        {% block header %}
+        {% endblock header %}
+        {% block aside %}
+        {% endblock aside %}
+        {% block content %}
+        {% endblock content %}
+        {% block footer %}
+        {% endblock footer %}
+        {% block Raside %}
+        {% endblock Raside %}
+        <div class="control-sidebar-bg"></div>
+    </div>
+    <!-- ./wrapper -->
+
+</body>
+
+</html>

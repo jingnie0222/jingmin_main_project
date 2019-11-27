@@ -1,0 +1,272 @@
+{% extends 'content.html' %}
+{% block head %}
+{% include 'head.html' %}
+{% endblock head %}
+{% block header %}
+{% include 'header.html' %}
+{% endblock header %}
+{% block aside %}
+{% include 'aside.html' %}
+{% endblock aside %}
+{% block footer %}
+{% include 'footer.html' %}
+{% endblock footer %}
+
+{% block custom_head %}
+<!--link rel="stylesheet"
+    href="http://10.134.104.40/django_statics/AdminLTE/bower_components/select2/dist/css/select2.min.css"-->
+<link rel="stylesheet"
+    href="http://10.134.104.40/django_statics/AdminLTE/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+<link rel="stylesheet"
+    href="http://10.134.104.40/django_statics/AdminLTE/bower_components/Ionicons/css/ionicons.min.css">
+<link rel="stylesheet"
+    href="http://10.134.104.40/django_statics/AdminLTE/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+{% endblock custom_head %}
+
+{% block custom_script %}
+<script src="http://10.134.104.40/django_statics/AdminLTE/bower_components/datatables.net/js/jquery.dataTables.min.js">
+</script>
+<script
+    src="http://10.134.104.40/django_statics/AdminLTE/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js">
+</script>
+<script src="http://10.134.104.40/django_statics/AdminLTE/bower_components/jquery-slimscroll/jquery.slimscroll.min.js">
+</script>
+<!-- bootstrap datepicker -->
+<script
+    src="http://10.134.104.40/django_statics/AdminLTE/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js">
+</script>
+<script
+    src="http://10.134.104.40/django_statics/AdminLTE/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.zh-CN.js">
+</script>
+
+<script>
+    function sleep(n) { //n表示的毫秒数
+        var start = new Date().getTime();
+        while (true)
+            if (new Date().getTime() - start > n) break;
+    }
+
+    function auto_href() {
+        sleep(2000);
+        window.location.href =
+            "{% url 'lizhi_accu_compare:case_detail' case_detail.task_id.task_id case_detail.query_id|add:1  %}";
+    }
+
+    function submit_next() {
+        // $("#id_is_next").attr("checked", true)
+        $("form").submit(function () {
+            return false;
+        });
+        setTimeout(function () {
+            test();
+        }, 2000);
+        window.location.href =
+            "{% url 'lizhi_accu_compare:case_detail' case_detail.task_id.task_id case_detail.query_id|add:1  %}";
+        // return false;
+    }
+
+    function precision_input() {
+        var mode = $('#id_precision option:selected').attr('value')
+        // alert(mode)
+        switch (mode) {
+            case '3':
+                $('#id_status').val('2')
+                break;
+        }
+    }
+
+    $(document).ready(function () {
+        $('#id_precision').change(
+            function () {
+                precision_input()
+            }
+        )
+        $('#id_solve_time').datepicker({
+            language: 'zh-CN',
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            todayHighlight: true,
+        }) 
+        {% if save_success == "success" %}
+        auto_href() 
+        {% endif %}
+    })
+</script>
+{% endblock custom_script %}
+
+<!-- Content Header -->
+{% block content_head %}
+<section class="content-header">
+    <h1>
+        欢迎来到质保平台
+        <small>welcome</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            <a href="{% url 'lizhi_accu_compare:mission_list' %}"><i class="fa fa-dashboard"></i>立知精准对比</a>
+        </li>
+        <li class="active">
+            <a href="{% url 'lizhi_accu_compare:case_list' case_detail.task_id.task_id %}"><i
+                    class="fa fa-dashboard"></i>现场列表</a>
+        </li>
+    </ol>
+</section>
+{% endblock content_head %}
+
+<!-- Main content -->
+{% block content_body %}
+<section class="content container-fluid">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">查询词现场</h3>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box-body">
+                            <div class="row">
+                                {% if save_success == "success" %}
+                                <div class="callout callout-success">
+                                    <h4>修改成功！</h4>
+                                    <p>1.5秒后跳转到下一Case</p>
+                                </div>
+                                {% elif save_success == "success_last" %}
+                                <div class="callout callout-success">
+                                    <h4>修改成功！</h4>
+                                    <p>已经到最后一个Case</p>
+                                </div>
+                                {% endif %}
+                                <div class="col-md-12">
+                                    <p>查询词:{{ case_detail.query }}</p>
+                                    {% if case_detail.itest_record_id %}
+                                    <p>此问题已汇总到<a target="_blank" href="http://itest.sogou-inc.com/#!/bugShow/{{ case_detail.itest_record_id }}/">http://itest.sogou-inc.com/#!/bugShow/{{ case_detail.itest_record_id }}/</a></p>
+                                    {% endif %}
+                                </div>
+                                <form role="form" method='post'>
+                                    {% csrf_token %}
+                                    <div class="col-md-12">
+                                        <table class="table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width:10%;font-size: 16px">项目</th>
+                                                    <th style="width:44%;font-size: 16px">搜狗结果</th>
+                                                    <th style="width:2%"></th>
+                                                    <th style="width:44%;font-size: 16px">百度结果</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>现场样式</td>
+                                                    <td>
+                                                        <img class="img-responsive" src="{{ case_detail.sogou_pic }}"
+                                                            alt="Photo">
+                                                    </td>
+                                                    <td></td>
+                                                    <td>
+                                                        <img class="img-responsive" src="{{ case_detail.baidu_pic }}"
+                                                            alt="Photo">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>文字结果</td>
+                                                    <td>{{ case_detail.sogou_res }}</td>
+                                                    <td></td>
+                                                    <td>{{ case_detail.baidu_res }}</td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                            </div>
+                        </div>
+                        <!-- <div class="box-footer">
+                <label>分页预留</label>
+              </div> -->
+                    </div>
+                </div>
+                </form>
+                <div class="box box-primary">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box-body">
+                                <form role="form" method='post'>
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-md-1">
+                                            <label>{{ case_detail_status.precision.label }}</label>
+                                        </div>
+                                        <div class="col-md-2">
+                                            {{ case_detail_status.precision }}
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label>{{ case_detail_status.status.label }}</label>
+                                        </div>
+                                        <div class="col-md-2">
+                                            {{ case_detail_status.status }}
+                                        </div>
+                                        <div class="col-md-1">
+                                            {{ case_detail_status.solve_time.label }}
+                                        </div>
+                                        <div class="col-md-2">
+                                            {{ case_detail_status.solve_time }}
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label>{{ case_detail_status.comments.label }}</label>
+                                        </div>
+                                        <div class="col-md-2">
+                                            {{ case_detail_status.comments }}
+                                            {{ case_detail_status.is_next }}
+                                            <!-- {{ case_detail_status.is_next.error }} -->
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label>{{ case_detail_status.lizhi_type.label }}</label>
+                                        </div>
+                                        <div class="col-md-2">
+                                            {{ case_detail_status.lizhi_type }}
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label>{{ case_detail_status.focus_member.label }}</label>
+                                        </div>
+                                        <div class="col-md-2">
+                                            {{ case_detail_status.focus_member }}
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label>{{ case_detail_status.itest_record_title.label }}</label>
+                                        </div>
+                                        <div class="col-md-2">
+                                            {{ case_detail_status.itest_record_title }}
+                                        </div>
+                                        <div class="col-md-12 col-md-offset-7">
+                                            <button type="submit" class="btn btn-primary">提交修改</button>
+                                            <a role="button" class="btn btn-success"
+                                                href="{% url 'lizhi_accu_compare:case_list' case_detail.task_id.task_id %}">返回此任务列表</a>
+                                                <a role="button" class="btn btn-warning"
+                                                href="{% url 'lizhi_accu_compare:unsolved_case' %}">返回未解决列表</a>
+                                            {% if prev_disable %}
+                                            <a role="button" class="btn btn-default" %} {{ prev_disable }}>上一个</a>
+                                            {% else %}
+                                            <a role="button" class="btn btn-default"
+                                                href="{% url 'lizhi_accu_compare:case_detail' case_detail.task_id.task_id case_detail.query_id|add:-1 %}"
+                                                {{ prev_disable}}>上一个</a>
+                                            {% endif %}
+                                            {% if next_disable %}
+                                            <a role="button" class="btn btn-default" {{ next_disable }}>下一个</a>
+                                            {% else %}
+                                            <a role="button" class="btn btn-default"
+                                                href="{% url 'lizhi_accu_compare:case_detail' case_detail.task_id.task_id case_detail.query_id|add:1  %}"
+                                                {{ next_disable }}>下一个</a>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content_body %}

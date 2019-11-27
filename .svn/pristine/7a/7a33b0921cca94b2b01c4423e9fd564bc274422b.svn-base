@@ -1,0 +1,10 @@
+{% block footer %}
+<footer class="main-footer">
+    <!-- To the right -->
+    <div class="pull-right hidden-xs">
+        开发中
+    </div>
+    <!-- Default to the left -->
+    <strong>Copyright &copy; 2019-2020 <a href="#">Sogou</a>.</strong> All rights reserved.
+</footer>
+{% endblock footer %}

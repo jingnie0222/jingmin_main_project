@@ -1,0 +1,125 @@
+{% extends 'father.html' %} {% load static %} {% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="tile">
+                <div class="tile-body">
+                    <span id="error_xml" style="color:red;font-size:15px;"></span>
+                    <form class="form-horizontal" method="post" id="markdown_form">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            {{ form.media }}
+                            {{ form.as_p }}
+                            {#                            {{ form.as_ul }}#}
+
+                            {#                            <input name="wikitag" id="wikitag" type="text" class="form-control"#}
+                            {#                                   placeholder="Tag1--Tag2--Tag3"/></div>#}
+
+                            <!--<textarea name="summary" id="summary" class="form-control" style="resize: none;" rows="1" placeholder="摘要"></textarea>
+                            <hr />-->
+                            {#                        <textarea name="content" class="form-control" data-provide="markdown" rows="18"#}
+                            {#                                  id="editor"></textarea>#}
+
+                            <button class="btn btn-default" type="submit" value="Submit">发布</button>
+                            {#                            <label class="btn btn-default" id="save_draft">保存草稿</label>#}
+                            {#                            <label>图片链接前缀http://frontqa.web.sjs.ted:8080/wiki/upload/{{ user_id }}/{img_name}<a#}
+                            {#                                    href="/wiki_img"#}
+                            {#                                    style="cursor: pointer;">#}
+                            {#                                &nbsp;&nbsp;上传图片</a></label>#}
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+{% endblock %} {% block js %}
+
+    <script>
+
+        $(".taglist").click(function () {
+            var tagtext = $(this).text();
+            var pre_tag = $('#wikitag').val();
+            var new_tag = "";
+            if (pre_tag == "") {
+                new_tag = tagtext;
+            } else {
+                new_tag = pre_tag + "--" + tagtext;
+            }
+            $('#wikitag').val(new_tag);
+        })
+
+        //save a draft
+        $('#save_draft').click(function () {
+            var title = $('#title').val()
+//      var summary = $('#summary').val()
+            {#            var content = $('#editor').val()#}
+            var wikitag = $('#wikitag').val()
+            $.ajax({
+                type: "POST",
+                url: "/wiki/save_blog",
+                async: true,
+                traditional: true,
+                data: {
+                    'title': title,
+//              'summary':summary,
+                    {#                    'content': content,#}
+                    'wikitag': wikitag,
+                    'flag': 'draft',
+                },
+                dataType: 'JSON',
+                success: function (obj) {
+                    if (obj.status) {
+                        location.reload();
+                    } else {
+                        $('#error_xml').text(obj.error);
+                    }
+                },
+                error: function () {
+
+                },
+            });
+        })
+        //add a wiki
+        $('#add_blog').click(function () {
+            var title = $('#id_wikititle').val()
+//      var summary = $('#summary').val()
+            var content = $('#editor').val()
+            var wikitag = $('#id_wikitag').val()
+            var wikicontent = $('#id_wikicontent').val()
+            if (title != "" && wikitag != "" && wikicontent != "") {
+                $.ajax({
+                    type: "POST",
+                    url: "/wiki/add_wiki",
+                    async: true,
+                    traditional: true,
+                    data: $('#markdown_form').serialize(),
+                    {#                    data: {#}
+                    {#                        'title': title,#}
+                    {#//              'summary':summary,#}
+                    {#                        'content': content,#}
+                    {#                        'wikitag': wikitag,#}
+                    {#                        'flag': 'add',#}
+                    {#                    },#}
+                    dataType: 'JSON',
+                    success: function (obj) {
+                        if (obj.status) {
+                            window.location.href = '/wiki/wiki';
+                        } else {
+                            $('#error_xml').text(obj.error);
+                        }
+                    },
+                    error: function () {
+
+                    },
+                });
+            } else {
+                $('#error_xml').text("标题，摘要，内容，标签都为必填")
+            }
+
+        })
+    </script>
+{% endblock %}

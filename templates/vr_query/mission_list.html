@@ -1,0 +1,227 @@
+{% extends 'content.html' %}
+{% block head %}
+{% include 'head.html' %}
+{% endblock head %}
+{% block header %}
+{% include 'header.html' %}
+{% endblock header %}
+{% block aside %}
+{% include 'aside.html' %}
+{% endblock aside %}
+{% block footer %}
+{% include 'footer.html' %}
+{% endblock footer %}
+
+{% block custom_head %}
+<!--link rel="stylesheet"
+    href="http://10.134.104.40/django_statics/AdminLTE/bower_components/select2/dist/css/select2.min.css"-->
+<link rel="stylesheet"
+  href="http://10.134.104.40/django_statics/AdminLTE/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+<link rel="stylesheet"
+  href="http://10.134.104.40/django_statics/AdminLTE/bower_components/Ionicons/css/ionicons.min.css">
+{% endblock custom_head %}
+
+{% block custom_script %}
+<script src="http://10.134.104.40/django_statics/AdminLTE/bower_components/datatables.net/js/jquery.dataTables.min.js">
+</script>
+<script
+  src="http://10.134.104.40/django_statics/AdminLTE/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js">
+</script>
+<script src="http://10.134.104.40/django_statics/AdminLTE/bower_components/jquery-slimscroll/jquery.slimscroll.min.js">
+</script>
+<script>
+  $(document).ready(function () {
+    $('#mission_list').DataTable({
+      'serverSide': true,
+      'paging': true,
+      'lengthChange': false,
+      'searching': false,
+      'ordering': true,
+      'info': true,
+      'autoWidth': false,
+      "language": {
+        "sLengthMenu": "每页显示 _MENU_ 项结果",
+        "info": "第 _START_ 至 _END_ 项记录，共 _TOTAL_ 项",
+        "infoEmpty": "第 0 至 0 项记录，共 0 项",
+        "emptyTable": "无可用数据",
+        "infoFiltered": "(从_MAX_条记录中过滤)",
+        "paginate": {
+          "last": "第一页",
+          "next": "下一页",
+          "previous": "上一页",
+          "last": "最后一页",
+        }
+      },
+      'order': [
+        [0, "asc"]
+      ],
+      "bLengthChange": true,
+      "pageLength": 10,
+      "lengthMenu": [10, 15, 20],
+      "ajax": {
+        "url": "{% url 'vr_query:page' %}",
+        "type": "POST",
+        cache: false, //禁用缓存
+        data: function (data) {
+          return JSON.stringify({
+            'draw': data.draw,
+            'start': data.start,
+            'length': data.length,
+          })
+        }, //传入已封装的参数
+        dataType: "json", //返回数据格式为json
+        contentType: "application/json"
+        // "data": function ( d ) {
+        //     console.log(d)
+        // }
+      },
+      "columns": [{
+          "data": "mission_id",
+          "width": "5%",
+          "defaultContent": "--"
+        },
+        {
+          "data": "mission_type",
+          "width": "10%",
+          "defaultContent": "--"
+        },
+        {
+          "data": "query_from",
+          "width": "7%",
+          "defaultContent": "--"
+        },
+        {
+          "data": "user",
+          "width": "10%",
+          "defaultContent": "--"
+        },
+        {
+          "data": "status",
+          "width": "10%",
+          "defaultContent": "--"
+        },
+        {
+          "data": "start_time",
+          "width": "14%",
+          "defaultContent": "--"
+        },
+        {
+          "data": "end_time",
+          "width": "14%",
+          "defaultContent": "--"
+        },
+        {
+          "data": "result_url",
+          "width": "15%",
+          "defaultContent": "--"
+        },
+      ]
+    });
+  });
+</script>
+{% endblock custom_script %}
+
+<!-- Content Header -->
+{% block content_head %}
+<section class="content-header">
+  <h1>
+    欢迎来到质保平台
+    <small>welcome</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i>路径1</a></li>
+    <li class="active">路径2</li>
+  </ol>
+</section>
+{% endblock content_head %}
+
+<!-- Main content -->
+{% block content_body %}
+<section class="content container-fluid">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">取词任务列表</h3>
+        </div>
+        <form role="form" method='post'>
+          {% csrf_token %}
+          <div class="row">
+            <div class="col-md-12">
+              <div class="box-body">
+                <!-- <div class="form-group">
+                  <div class="row">
+                    <div class="col-md-4">
+                      <label class="col-md-3 h5">{{ mission_filter.mission_query_from.label }}</label>
+                      {{ mission_filter.mission_query_from }}
+                    </div>
+                    <div class="col-md-4">
+                      <label class="col-md-3 h5">{{ mission_filter.mission_user.label }}</label>
+                      {{ mission_filter.mission_user }}
+                    </div>
+                    <div class="col-md-4">
+                      <label class="col-md-3 h5">{{ mission_filter.mission_status.label }}</label>
+                      {{ mission_filter.mission_status }}
+                    </div>
+                  </div>
+                </div> -->
+                <br>
+                <div class="row">
+                  <div class="col-md-3 col-md-push-9">
+                    <div class="row">
+                      <div class="col-md-5">
+                        <!-- <button type="submit" class="btn btn-primary btn-block">点击查询</button> -->
+                      </div>
+                      <div class="col-md-5">
+                        <a role="button" class="btn btn-success btn-block" href="/vr_query/mission_add/">添加任务</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <br />
+                <div class="row">
+                  <div class="col-md-12">
+                    <table id="mission_list" class="table table-bordered table-striped">
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>任务种类</th>
+                          <th>来源</th>
+                          <!-- <th>选取字段</th> -->
+                          <th>执行人</th>
+                          <th>任务状态</th>
+                          <th>开始时间</th>
+                          <th>结束时间</th>
+                          <th>词表地址</th>
+                        </tr>
+                      </thead>
+                      <!-- <tbody>
+                        {% for mission in mission_list %}
+                        <tr>
+                          <td>{{ mission.mission_id }}</td>
+                          <td>{{ mission.get_mission_type_display }}</td>
+                          <td>{{ mission.get_query_from_display }}</td>
+                          <td>{{ mission.result_format }}</td>
+                          <td>{{ mission.user }}</td>
+                          <td>{{ mission.get_mission_status_display }}</td>
+                          <td>{{ mission.start_time|date:"Y-m-d H:i:s" }}</td>
+                          <td>{{ mission.end_time|date:"Y-m-d H:i:s" }}</td>
+                          <td><span mission.result_url>{{ mission.result_url }}</span></td>
+                        </tr>
+                        {% endfor %}
+                      </tbody> -->
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="box-footer">
+                <label>分页预留</label>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content_body %}

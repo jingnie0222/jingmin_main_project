@@ -1,0 +1,211 @@
+{% extends 'content.html' %}
+{% block head %}
+{% include 'head.html' %}
+{% endblock head %}
+{% block header %}
+{% include 'header.html' %}
+{% endblock header %}
+{% block aside %}
+{% include 'aside.html' %}
+{% endblock aside %}
+{% block footer %}
+{% include 'footer.html' %}
+{% endblock footer %}
+
+<!-- Content Header -->
+{% block content_head %}
+
+<!-- some custome css -->
+<style>
+.pipe {padding: 0 3px}
+</style>
+
+
+<section class="content-header">
+  <h1>
+    前端质量保障平台
+    <small>Secure. Contain. Protect.</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i>前端质量保障平台</a></li>
+    <li class="active">知识库</li>
+  </ol>
+</section>
+{% endblock content_head %}
+
+<!-- Main content -->
+{% block content_body %}
+<!--
+<section class="content container-fluid">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">TEST INPUT</h3>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="box-body">
+              <div class="form-group">
+                <label>{{ a.test_select.label }}</label>
+                {{ a.test_select }}
+              </div>
+              <div class="form-group">
+                <label>{{ a.test_input.label }}</label>
+                {{ a.test_input }}
+              </div>
+            </div>
+            <div class="box-footer">
+              <button type="submit" class="btn btn-primary">提交</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+-->
+<section class="content container-fluid">
+	<div class="row">
+		<div class="col-md-6">
+
+			<!-- primary box -->
+			<div class="box box-primary">
+				<div class="box-header with-border">
+					<h3 class="box-title">日常任务流程</h3>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="box-body">
+							<span>任务流程和制度</span>
+							<ul>
+								<!--<li><a href="">Pagetest 维护需求</a></li>-->
+								<li><a href="http://itest.sogou-inc.com/#!/wikiShow/2678" target="_blank">前端组任务分配和职责(2019.10.22)</a></li>
+								<li><a href="http://itest.sogou-inc.com/#!/wikiShow/2400" target="_blank">发现线上问题的跟进</a></li>
+								<li><a href="http://itest.sogou-inc.com/#!/wikiShow/2289" target="_blank">PC</a> <span class="pipe">|</span> <a href="http://itest.sogou-inc.com/#!/wikiShow/2468">WAP</a> 例行上线流程验证</li>
+								<li><a href="http://itest.sogou-inc.com/#!/wikiShow/2270" target="_blank">PC压力测试总结</a></li>
+								<li><a href="http://itest.sogou-inc.com/#!/wikiShow/2483" target="_blank">WAP常规压力测试流程</a></li>
+								<li><a href="http://itest.sogou-inc.com/#!/wikiShow/2240" target="_blank">翻译垂搜测试说明</a></li>
+								<li><a href="http://itest.sogou-inc.com/#!/wikiShow/2236" target="_blank">PC</a> <span class="pipe">|</span><a href="http://itest.sogou-inc.com/#!/wikiShow/2478" target="_blank">WAP</a> <span style="margin-left:5px">VR测试总结</span></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="box-body">
+							<span>报bug的那些事</span>
+							<ul>
+								<li><a href="http://itest.sogou-inc.com/#!/wikiShow/2578" target="_blank">向开发报问题的指引</a></li>
+								<li><a href="http://itest.sogou-inc.com/#!/wikiShow/2445" target="_blank">线下测试任务中报问题和跟进</a></li>
+								<li><a href="http://itest.sogou-inc.com/#!/wikiShow/2439" target="_blank">前端测试中bug问题分类和推动</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- primary box end -->
+
+			<!-- primary box -->
+			<div class="box box-primary">
+				<div class="box-header with-border">
+					<h3 class="box-title">工具平台和监控</h3>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="box-body">
+							<ul>
+								<li><a target="_blank" href="http://itest.sogou-inc.com/#!/wikiShow/2675">UTS 线上监控和线下运行方法</a></li>
+								<li><a target="_blank" href="">基于前端功能的Pagetest整理</a></li>
+								<li><a target="_blank" href="http://itest.sogou-inc.com/#!/wikiShow/2679">例行线上核心功能死链监控</a></li>
+								<li><a target="_blank" href="http://10.153.62.190:4000/#/monitor/warnsOneDay/2019-10-22">VR检查null非法数据平台</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- primary box end -->
+			
+			<div class="box box-primary">
+				<div class="box-header with-border">
+					<h3 class="box-title">前端知识文档</h3>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="box-body">
+							<span>前端功能整理列表</span>
+							<ul>
+							<li><a href="http://itest.sogou-inc.com:1111/#!/usercase?project=%E7%BD%91%E9%A1%B5%E6%90%9C%E7%B4%A2&platform=%E7%BD%91%E9%A1%B5%20wap&keyword=%E6%97%A0%E7%BA%BF%E7%BD%91%E9%A1%B5%E4%B8%BB%E8%A6%81%E5%8A%9F%E8%83%BD%E7%82%B9" target="_blank">WAP前端功能列表</a></li>
+							<li><a href="http://itest.sogou-inc.com:1111/#!/usercase?project=%E7%BD%91%E9%A1%B5%E6%90%9C%E7%B4%A2&platform=%E7%BD%91%E9%A1%B5%20pc&keyword=PC%E7%BD%91%E9%A1%B5%E5%89%8D%E7%AB%AF%E5%8A%9F%E8%83%BD%E7%82%B9" target="_blank">WEB前端功能列表</a></li>
+							<li><a href="http://itest.sogou-inc.com/#!/statisticsIndex" target="_blank">任务统计</a><span class="pipe">|</span><a href="http://itest.sogou-inc.com/#!/plansList">进行中任务统计</a></li>
+							<li><a href="http://itest.sogou-inc.com/#!/wikiShow/2281" target="_blank">pagetest和无线例行压力执行(ppt)</a></li>
+							<li><a href="http://itest.sogou-inc.com/#!/wikiShow/2399">前端开发提供的mock平台说明</a></li>
+							<li><a href="http://itest.sogou-inc.com/#!/wikiShow/2375" target="_blank">nodejs 产生覆盖率报告的方法</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="box-body">
+							<span>测试方案的执行方法</span>
+							<ul>
+								<li><a href="http://itest.sogou-inc.com/#!/wikiShow/2478" target="_blank">WAP 前端通用测试检查点</a></li>
+								<li><a href="http://itest.sogou-inc.com/#!/wikiShow/2394" target="_blank">常规兼容性测试覆盖范围</a></li>
+								<li><a href="http://itest.sogou-inc.com/#!/wikiShow/2234" target="_blank">mac系统更新以及检查点</a></li>
+								<li><a href="http://itest.sogou-inc.com/#!/wikiShow/2221" target="_blank">resin打压环境更新数据</a></li>
+								<li><a href="http://itest.sogou-inc.com/#!/wikiShow/2482" target="_blank">[策略]前端node/css新截断策略</a></li>
+								<li><a href="http://itest.sogou-inc.com/#!/wikiShow/2395" target="_blank">前端二次请求ajax逻辑相关测试点和执行方法</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<!-- primary box -->
+			<div class="box box-primary">
+				<div class="box-header with-border">
+					<h3 class="box-title">环境搭建和配置</h3>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="box-body">
+							<ul>
+								<li><a href="http://itest.sogou-inc.com/#!/wikiShow/2422" target="_blank">WAP前端 Nodejs搭建</a></li>
+								<li><a href="http://itest.sogou-inc.com/#!/wikiShow/2425" target="_blank">PC前端 环境搭建</a></li>
+								<li><a href="http://itest.sogou-inc.com/#!/wikiShow/2438" target="_blank">前端环境搭建问题解决集合</a></li>
+								<li><a href="http://itest.sogou-inc.com/#!/wikiShow/2442" target="_blank">转码页的说明和配置</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- primary box end -->
+			
+			<!-- primary box -->
+			<div class="box box-primary">
+				<div class="box-header with-border">
+					<h3 class="box-title">归档文档</h3>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="box-body">
+							<ul>
+								<li><a href="http://itest.sogou-inc.com/#!/wikiShow/2407" target="_blank">[白牌]网页结果白牌说明需求</a></li>
+								<li><a href="http://itest.sogou-inc.com:1111/#!/usercase?project=%E7%BD%91%E9%A1%B5%E6%90%9C%E7%B4%A2&platform=%E7%BD%91%E9%A1%B5%20wap&keyword=%E6%97%A0%E7%BA%BF%E6%96%B0%E7%99%BD%E7%89%8Ccheck" target="_blank">[白牌]前端检查点</a></li>
+								<li><a href="http://itest.sogou-inc.com:1111/#!/?project=%E7%BD%91%E9%A1%B5%E6%90%9C%E7%B4%A2&platform=%E7%BD%91%E9%A1%B5%20pc&keyword=PC%E7%BD%91%E9%A1%B5%E5%89%8D%E7%AB%AF%E9%87%8D%E6%9E%84check%20list" target="_blank">[Nodejs]前端检查点</a></li>
+								<li><a target="_blank" href="https://docs.qq.com/sheet/DUXJWUlJndFJtdk9q?tab=BB08J2&coord=D75%24D75%240%240%246%240">[Nodejs]前端相关各种模板查询词</a></li>
+								<li><a href="http://other.open.sogou/demand/demand/index.html?team=0&DemandSearch%5Btitle%5D=&DemandSearch%5Bdev%5D=&DemandSearch%5Btest%5D=&DemandSearch%5Bprincipal%5D=&DemandSearch%5Bversion%5D=2019-05.1&DemandSearch%5Bstatus%5D=&DemandSearch%5Bplatform%5D=&DemandSearch%5Bsort%5D=">产品排期</a></li>
+								<li><a href="http://itest.sogou-inc.com/#!/wikiShow/2239" target="_blank">知乎小垂直测试总结</a></li>
+								<li><a href="http://itest.sogou-inc.com/#!/wikiShow/2237" target="_blank">微信垂搜测试环境说明（一）</a></li>
+								<li><a href="http://itest.sogou-inc.com/#!/wikiShow/2238" target="_blank">微信垂搜测试环境说明（二）</a></li>
+								<li><a href="http://itest.sogou-inc.com/#!/wikiShow/2402" target="_blank">[交接]前端小工具</a></li>
+								<li><a href="http://web-nlp.sogou-inc.com/segment/top.jsp">分词工具</a></li>
+								</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- primary box end -->
+			
+			
+		</div>
+	</div>
+</section>
+{% endblock content_body %}

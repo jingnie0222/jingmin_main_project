@@ -1,0 +1,219 @@
+{% extends 'content.html' %}
+{% block head %}
+{% include 'head.html' %}
+{% endblock head %}
+{% block header %}
+{% include 'header.html' %}
+{% endblock header %}
+{% block aside %}
+{% include 'aside.html' %}
+{% endblock aside %}
+{% block footer %}
+{% include 'footer.html' %}
+{% endblock footer %}
+
+{% block custom_head %}
+<!--link rel="stylesheet"
+    href="http://10.134.104.40/django_statics/AdminLTE/bower_components/select2/dist/css/select2.min.css"-->
+<link rel="stylesheet"
+  href="http://10.134.104.40/django_statics/AdminLTE/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+<link rel="stylesheet"
+  href="http://10.134.104.40/django_statics/AdminLTE/bower_components/Ionicons/css/ionicons.min.css">
+{% endblock custom_head %}
+
+{% block custom_script %}
+
+
+<script src="http://10.134.104.40/django_statics/AdminLTE/bower_components/datatables.net/js/jquery.dataTables.min.js">
+</script>
+<script
+  src="http://10.134.104.40/django_statics/AdminLTE/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js">
+</script>
+<script src="http://10.134.104.40/django_statics/AdminLTE/bower_components/jquery-slimscroll/jquery.slimscroll.min.js">
+</script>
+
+
+
+
+{% endblock custom_script %}
+
+<!-- Content Header -->
+{% block content_head %}
+
+
+<section class="content-header">
+  <h1>
+    欢迎来到质保平台
+    <small>welcome</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i>路径1</a></li>
+    <li class="active">路径2</li>
+  </ol>
+</section>
+{% endblock content_head %}
+
+<!-- Main content -->
+{% block content_body %}
+    <section class="content container-fluid">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="tile">
+                                <div class="tile-body">
+                                    <span style="color:red;font-size:15px;" id="error_xml"></span>
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>User</th>
+                                            <th>更新时间</th>
+                                            <th>操作</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for item in form %}
+                                            <tr>
+                                                <!-- <td><a href="/hx_inner_wiki/inner_wiki_detail/">{{ item.title }}</a></td> -->
+                                                <td><a href="/hx_inner_wiki/inner_wiki_detail_{{ item.id }}">{{ item.title }}</a></td>
+                                                <td>{{ item.user }}</td>
+                                                <td>{{ item.update_time }}</td>
+                                                <td>
+                                                    <a href="/hx_inner_wiki/inner_wiki_edit?id={{ item.id }}">[编辑]</a>
+                                                    <a class="del_line" href="" wiki_id={{ item.id }}>[删除]</a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <nav aria-label="Page navigation">
+                                        <ul class="pagination">
+                                            {{ page_str }}
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-sm-4">
+                            <div class="tile">
+                                <div class="tile-body">
+                                    <div class="form-group">
+                                        
+                                        </br>
+
+                                        <div class="col-md-5">
+                                            <a role="button" class="btn btn-success btn-block" href="/hx_inner_wiki/inner_wiki_new/">新建</a>
+                                        </div>
+
+
+
+                                        </br>
+                                        </br></br></br>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tile">
+                                <div class="tile-body">
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <label>分类</label>
+                                        </div>
+                                        <div class="form-group">
+
+                                            <button type="button" class="btn btn-info" onclick="window.location.href='/hx_inner_wiki/inner_wiki_list/'">全部分类</button>
+
+                                        </br>
+                                        </br>
+
+
+                                            {% for category in category_list %}
+
+                                                <button type="button" class="btn btn-info" onclick="window.location.href='/hx_inner_wiki/inner_wiki_list?category={{ category.category }}'">{{ category.category }}</button>
+
+                                            {% endfor %}
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tile">
+                                <div class="tile-body">
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <label>标签</label>
+                                        </div>
+                                        <div class="form-group">
+
+                                            {% for tags in tag_list %}
+
+                                                <button type="button" class="btn btn-danger" onclick="window.location.href='/hx_inner_wiki/inner_wiki_list?tag={{ tags }}'">{{ tags }}</button>
+
+                                            {% endfor %}
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <script>
+        //del
+        $('.del_line').click(function () {
+            //alert("zhun bei del")
+            var line_id = $(this).attr('wiki_id');
+            console.log(line_id)
+            if (confirm('确定删除吗？')) {
+                console.log(line_id)
+                //alert("line_id: " + line_id)
+                $.ajax({
+                    type: "POST",
+                    url: "/hx_inner_wiki/inner_wiki_delete/",
+                    async: true,
+                    data: {
+                        'line_id': line_id
+                    },
+                    dataType: 'JSON',
+
+
+                    success: function (obj) {
+                        
+                        if (obj.status) {
+                            location.reload();
+                        } else {
+                            $('#error_xml').text(obj.error);
+                        }
+                    },
+                    error: function () {
+                    }
+                });
+            }
+        })
+    </script>
+
+
+{% endblock content_body %}
+
+
+
+
+
+

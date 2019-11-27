@@ -1,0 +1,139 @@
+{% extends 'content.html' %}
+{% block head %}
+{% include 'head.html' %}
+{% endblock head %}
+{% block header %}
+{% include 'header.html' %}
+{% endblock header %}
+{% block aside %}
+{% include 'aside.html' %}
+{% endblock aside %}
+{% block footer %}
+{% include 'footer.html' %}
+{% endblock footer %}
+
+{% block custom_head %}
+<!--link rel="stylesheet"
+    href="http://10.134.104.40/django_statics/AdminLTE/bower_components/select2/dist/css/select2.min.css"-->
+{% endblock custom_head %}
+
+{% block custom_script %}
+<script>
+  function vrid_input() {
+    var mode = $('#vrid_mode option:selected').attr('value')
+    switch (mode) {
+      case '0':
+        $('tr#vrid_url').hide()
+        $('tr#vrid_custom').hide()
+        $('tr#vrid_preserved').show("slow")
+        break;
+      case '1':
+        $('#vrid_preserved').hide()
+        $('#vrid_custom').hide()
+        $('#vrid_url').show("slow")
+        break;
+      case '2':
+        $('#vrid_preserved').hide()
+        $('#vrid_url').hide()
+        $('#vrid_custom').show("slow")
+        break;
+    }
+  }
+
+  function mission_type() {
+    var type = $('#id_mission_type').find("option:selected").val()
+    if (type == "query_for_id") {
+      $("[form-type='query_for_id']").parent().parent().show("slow")
+      $("[form-type='multi_id_query']").parent().parent().hide()
+    } else
+    if (type == "multi_id_query") {
+      $("[form-type='query_for_id']").parent().parent().hide()
+      $("[form-type='multi_id_query']").parent().parent().show("slow")
+    }
+
+  }
+  $(document).ready(function () {
+    vrid_input()
+    mission_type()
+    $(function () {
+      $('#vrid_mode').change(vrid_input)
+      $('#id_mission_type').change(function () {
+        mission_type()
+        vrid_input()
+      })
+    })
+  })
+</script>
+{% endblock custom_script %}
+
+<!-- Content Header -->
+{% block content_head %}
+<section class="content-header">
+  <h1>
+    欢迎来到质保平台
+    <small>welcome</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i>路径1</a></li>
+    <li class="active">路径2</li>
+  </ol>
+</section>
+{% endblock content_head %}
+
+<!-- Main content -->
+{% block content_body %}
+<section class="content container-fluid">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">增加任务</h3>
+        </div>
+        <form role="form" method='post'>
+          {% csrf_token %}
+          <div class="row">
+            <div class="col-md-12">
+              <div class="box-body">
+                <div class="row">
+                  <div class="col-lg-2 col-md-1 col-sm-0">
+                  </div>
+                  <div class="col-lg-8 col-md-10 col-sm-12">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <table style="width: 100%">
+                          <tbody>
+                            {% for item in front_press_form %}
+                            <tr id={{ item.name }}>
+                              <td style="width: 40%"><label class="h5">{{ item.label }}{{ item.choices }}</label></td>
+                              <td style="width: 50%">{{ item }}</td>
+                              <td style="width: 10%">{{ item.errors }}</td>
+                            </tr>
+                            {% endfor %}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-2 col-md-1 col-sm-0">
+                  </div>
+                </div>
+                <div class="box-footer">
+                  <div class="col-md-3 col-md-push-9">
+                    <div class="row">
+                      <div class="col-md-5">
+                        <button type="submit" class="btn btn-primary btn-block">任务开始</button>
+                      </div>
+                      <div class="col-md-5">
+                        <a role="button" class="btn btn-success btn-block" href="/front_press/mission_list/">返回列表</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content_body %}

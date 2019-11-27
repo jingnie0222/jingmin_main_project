@@ -1,0 +1,166 @@
+{% extends 'content.html' %}
+{% block head %}
+    {% include 'head.html' %}
+{% endblock head %}
+{% block header %}
+    {% include 'header.html' %}
+{% endblock header %}
+{% block aside %}
+    {% include 'aside.html' %}
+{% endblock aside %}
+{% block footer %}
+    {% include 'footer.html' %}
+{% endblock footer %}
+
+{% block custom_head %}
+    <!--link rel="stylesheet"
+        href="http://10.134.104.40/django_statics/AdminLTE/bower_components/select2/dist/css/select2.min.css"-->
+    <link rel="stylesheet"
+          href="http://10.134.104.40/django_statics/AdminLTE/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet"
+          href="http://10.134.104.40/django_statics/AdminLTE/bower_components/Ionicons/css/ionicons.min.css">
+{% endblock custom_head %}
+
+{% block custom_script %}
+    <script src="http://10.134.104.40/django_statics/AdminLTE/bower_components/datatables.net/js/jquery.dataTables.min.js">
+    </script>
+    <script
+            src="http://10.134.104.40/django_statics/AdminLTE/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js">
+    </script>
+    <script src="http://10.134.104.40/django_statics/AdminLTE/bower_components/jquery-slimscroll/jquery.slimscroll.min.js">
+    </script>
+    <script src="http://10.134.104.40/django_statics/text-diff/diff.js"></script>
+    <script src="http://10.134.104.40/django_statics/google-diff-match-patch-git-svn/javascript/diff_match_patch.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#auto_detail').DataTable({
+                'paging': true,
+                'lengthChange': false,
+                'searching': false,
+                'ordering': true,
+                'info': true,
+                'autoWidth': false,
+                "language": {
+                    "sLengthMenu": "每页显示 _MENU_ 项结果",
+                    "info": "第_PAGE_页(共_PAGES_页)",
+                    "infoEmpty": "第0页(共0页)",
+                    "emptyTable": "无可用数据",
+                    "paginate": {
+                        "last": "第一页",
+                        "next": "下一页",
+                        "previous": "上一页",
+                        "last": "最后一页",
+                    }
+                },
+                'order': [
+                    [0, "desc"]
+                ],
+                "bLengthChange": true,
+                "pageLength": 15,
+                "lengthMenu": [10, 15, 20],
+            });
+        });
+    </script>
+{% endblock custom_script %}
+
+<!-- Content Header -->
+{% block content_head %}
+    <section class="content-header">
+        <h1>
+            欢迎来到质保平台
+            <small>welcome</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i>路径1</a></li>
+            <li class="active">路径2</li>
+        </ol>
+    </section>
+{% endblock content_head %}
+
+<!-- Main content -->
+{% block content_body %}
+    <section class="content container-fluid">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">结果页面</h3>
+                    </div>
+                    <section class="content">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="box box-primary">
+                                    <table id="auto_detail" class="table table-bordered table-striped">
+                                        <tbody>
+                                        <tr>
+                                            <th>id</th>
+                                            <th>mission_id</th>
+                                            <th>url1</th>
+                                            <th>url2</th>
+                                            <th>html对比结果</th>
+                                        </tr>
+                                        {% for item in auto_detail %}
+                                            <tr req_id="{{ item.id }}">
+                                                <td class="col-md-1">{{ item.id }}</td>
+                                                <td class="col-md-1">{{ item.mission_id }}</td>
+                                                <td class="col-md-1 "><a href="{{ item.url1 }}">url1</a></td>
+                                                <td class="col-md-1"><a href="{{ item.url2 }}">url2</a></td>
+                                                <td class="col-md-8 diffs" line_id="{{ item.id }}"
+                                                    value1="{{ item.html1 }}"
+                                                    value2="{{ item.html2 }}">
+                                                    <div id="{{ item.id }}" class="diff-result"></div>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        {{ page_str }}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </section>
+    <script>
+
+        function diff(text1, text2, i) {
+            var diffUntil = new diff_match_patch();
+
+            var d = diffUntil.diff_main(text1, text2);   // 对比
+
+            var diffHtml = diffUntil.diff_prettyHtml(d);  // 转化为html
+            $('#' + i).html(diffHtml);
+        }
+
+        function diffText() {
+            var arr = {};
+            var t1 = {};
+            var t2 = {};
+
+            $('.diffs').each(function () {
+                line_id = $(this).attr('line_id');
+                var text1 = $(this).attr('value1');
+                var text2 = $(this).attr('value2');
+                t1[line_id] = text1;
+                t2[line_id] = text2;
+                arr[line_id] = line_id
+            });
+
+            for (var i in arr) {
+                (function (i) {
+                    var j = i;
+                    diff(t1[j], t2[j], j);
+                })(i)
+            }
+        }
+        diffText()
+
+    </script>
+{% endblock content_body %}

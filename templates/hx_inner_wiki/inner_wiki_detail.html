@@ -1,0 +1,164 @@
+{% extends 'content.html' %}
+{% block head %}
+{% include 'head.html' %}
+{% endblock head %}
+{% block header %}
+{% include 'header.html' %}
+{% endblock header %}
+{% block aside %}
+{% include 'aside.html' %}
+{% endblock aside %}
+{% block footer %}
+{% include 'footer.html' %}
+{% endblock footer %}
+
+{% block custom_head %}
+<!--link rel="stylesheet"
+    href="http://10.134.104.40/django_statics/AdminLTE/bower_components/select2/dist/css/select2.min.css"-->
+<link rel="stylesheet"
+  href="http://10.134.104.40/django_statics/AdminLTE/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+<link rel="stylesheet"
+  href="http://10.134.104.40/django_statics/AdminLTE/bower_components/Ionicons/css/ionicons.min.css">
+{% endblock custom_head %}
+
+{% block custom_script %}
+<script src="http://10.134.104.40/django_statics/AdminLTE/bower_components/datatables.net/js/jquery.dataTables.min.js">
+</script>
+<script
+  src="http://10.134.104.40/django_statics/AdminLTE/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js">
+</script>
+<script src="http://10.134.104.40/django_statics/AdminLTE/bower_components/jquery-slimscroll/jquery.slimscroll.min.js">
+</script>
+{% endblock custom_script %}
+
+<!-- Content Header -->
+{% block content_head %}
+<section class="content-header">
+  <h1>
+    欢迎来到质保平台
+    <small>welcome</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i>路径1</a></li>
+    <li class="active">路径2</li>
+  </ol>
+</section>
+{% endblock content_head %}
+
+<!-- Main content -->
+{% block content_body %}
+    <section class="content container-fluid">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="tile">
+                                <div class="tile-body">
+                                    <span id="error_xml" style="color:red;font-size:15px;"></span>
+
+                                        <div class="row">
+                                            <span id="error_xml"></span>
+                                            {{ form.media }}
+                                            <div class="col-md-12">
+                                                <div class="tile">
+                                                    <div class="tile-body">
+                                                        <h1 style="text-align: center;">{{ form.title.value }}</h1>
+                                                        <div style="margin-top: 2px;margin-bottom: 20px;color: #707070;text-align: center;">
+                                                            创建人：<span>{{ info.0.user }}</span>&nbsp;
+                                                            更新人：<span>{{ info.0.update_user }}</span>
+                                                            &nbsp;更新时间：<span>{{ info.0.update_time }}</span>
+                                                            <span>&nbsp;&nbsp;Tag:</span>
+                                                            {% for item in taglist %}
+                                                                <span>{{ item }}</span>
+                                                            {% endfor %}
+                                                            &nbsp;
+                                                            <a href="/hx_inner_wiki/inner_wiki_edit?id={{ task_id }}">[编辑]</a>
+                                                            &nbsp;
+                                                            <a class="del_line" href="" wiki_id={{ task_id }}>[删除]</a>
+                                                        </div>
+
+
+
+                                                        <textarea id="markdown" style="display: none">{{ form.content.value }}</textarea>
+
+                                                        <div id="EditorMdHtml">
+                                                            <textarea id="markdown_html" style="display: none;"></textarea>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+
+
+
+
+    <script>
+
+        $(function () {
+            var $markdown_html = $("#markdown_html");
+            var $markdown = $("#markdown");
+            var content = $markdown.text();
+            $markdown_html.text(content);
+            testEditormdView2 = editormd.markdownToHTML("EditorMdHtml", {
+                htmlDecode: "style,script,iframe",
+                emoji: true,
+                taskList: true,
+                tex: true,
+                flowChart: true,
+                sequenceDiagram: true,
+            });
+        });
+
+        //table hover
+        {#        $(function () {#}
+        {#            function showBox(obj, box) {#}
+        {#                var timer = null;#}
+        {#                $(obj).on("mouseover", function (e) {#}
+        {#                    clearTimeout(timer);#}
+        {#                    var clientX = e.clientX;#}
+        {#                    var clientY = e.clientY;#}
+        {#                    var y = clientY + 20;#}
+        {#                    var txt = $(this).text();#}
+        {#                    timer = setTimeout(function () {#}
+        {#                        $(box).css("left", clientX).css("top", y);#}
+        {#                        if (txt == "") {#}
+        {#                            $(box).hide();#}
+        {#                        } else {#}
+        {#                            $(box).show();#}
+        {#                            $(box).html(txt);#}
+        {#                        }#}
+        {#                    }, 300);#}
+        {#                });#}
+        {#                $(obj).on("mouseout", function () {#}
+        {#                    clearTimeout(timer);#}
+        {#                    $(box).hide();#}
+        {#                });#}
+        {#            }#}
+        {##}
+        {#            showBox("#reqData > tbody td", "#showDiv");#}
+        {#        });#}
+    </script>
+{% endblock content_body %}

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    var a = [];
+    for (var i = 0; i < 10; i++) {
+        (function (j) {
+            a[j] = function () {
+                // 作用域b
+                console.log(j);
+            };
+        })(i)
+    }
+    a[6]();//6
+</script>
+</html>

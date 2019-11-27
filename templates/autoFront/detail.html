@@ -1,0 +1,358 @@
+{% extends 'content.html' %}
+{% block head %}
+    {% include 'head.html' %}
+{% endblock head %}
+{% block header %}
+    {% include 'header.html' %}
+{% endblock header %}
+{% block aside %}
+    {% include 'aside.html' %}
+{% endblock aside %}
+{% block footer %}
+    {% include 'footer.html' %}
+{% endblock footer %}
+
+{% block custom_head %}
+    <!--link rel="stylesheet"
+        href="http://10.134.104.40/django_statics/AdminLTE/bower_components/select2/dist/css/select2.min.css"-->
+    <link rel="stylesheet"
+          href="http://10.134.104.40/django_statics/AdminLTE/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet"
+          href="http://10.134.104.40/django_statics/AdminLTE/bower_components/Ionicons/css/ionicons.min.css">
+{% endblock custom_head %}
+
+{% block custom_script %}
+    <script src="http://10.134.104.40/django_statics/AdminLTE/bower_components/datatables.net/js/jquery.dataTables.min.js">
+    </script>
+    <script
+            src="http://10.134.104.40/django_statics/AdminLTE/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js">
+    </script>
+    <script src="http://10.134.104.40/django_statics/AdminLTE/bower_components/jquery-slimscroll/jquery.slimscroll.min.js">
+    </script>
+    <script>
+
+
+        $(document).ready(function () {
+            $('#mission_list').DataTable({
+                'paging': true,
+                'lengthChange': false,
+                'searching': false,
+                'ordering': true,
+                'info': true,
+                'autoWidth': false,
+                "language": {
+                    "info": "第_PAGE_页(共_PAGES_页)",
+                    "infoEmpty": "第0页(共0页)",
+                    "emptyTable": "无可用数据",
+                    "paginate": {
+                        "last": "第一页",
+                        "next": "下一页",
+                        "previous": "上一页",
+                        "last": "最后一页",
+                    }
+                },
+                'order': [[0, "desc"]]
+            });
+        });
+    </script>
+{% endblock custom_script %}
+
+<!-- Content Header -->
+{% block content_head %}
+    <section class="content-header">
+        <h1>
+            欢迎来到质保平台
+            <small>welcome</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i>路径1</a></li>
+            <li class="active">路径2</li>
+        </ol>
+    </section>
+{% endblock content_head %}
+
+<!-- Main content -->
+{% block content_body %}
+    <section class="content container-fluid">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">结果页面</h3>
+                    </div>
+                    <section class="content">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="box box-primary">
+                                    <div class="box-header with-border"><h5>Detail</h5></div>
+                                    <table>
+                                        <tbody>
+                                        <tr>
+                                            <th>id</th>
+                                            <th class="col-md-1">startTime</th>
+                                            <th class="col-md-1">endTime</th>
+                                            <th class="col-md-1">tag</th>
+                                            <th class="col-md-1">type</th>
+                                            <th class="col-md-1">user</th>
+                                            <th class="col-md-1">PIC系统图像对比</th>
+                                            <th class="col-md-1">Pagetest回归测试</th>
+                                            <th class="col-md-1">特殊结果接口比对</th>
+                                            <th class="col-md-1">自动压力测试</th>
+                                            <th class="col-md-1">UTS交互验证测试</th>
+                                            <th class="col-md-1">status</th>
+                                            <th class="col-md-1">操作</th>
+                                        </tr>
+                                        <tr req_id="{{ auto_detail.0.id }}">
+                                            <td>{{ auto_detail.0.id }}</td>
+                                            <td class="col-md-1">{{ auto_detail.0.start_time }}</td>
+                                            <td class="col-md-1">{{ auto_detail.0.end_time }}</td>
+                                            <td class="col-md-1">{{ auto_detail.0.tag }}</td>
+                                            <td class="col-md-1">{{ auto_detail.0.type }}</td>
+                                            <td class="col-md-1">{{ auto_detail.0.user }}</td>
+
+                                            <td class="col-sm-1">
+                                                {% ifequal auto_detail.0.isPic 1 %}
+                                                    <h5>是</h5>
+                                                {% else %}
+                                                    <h5>否</h5>
+                                                {% endifequal %}
+                                            </td>
+                                            <td class="col-sm-1">
+                                                {% ifequal auto_detail.0.isPagetest 1 %}
+                                                    <h5>是</h5>
+                                                {% else %}
+                                                    <h5>否</h5>
+                                                {% endifequal %}
+                                            </td>
+                                            <td class="col-sm-1">
+                                                {% ifequal auto_detail.0.isInterface 1 %}
+                                                    <h5>是</h5>
+                                                {% else %}
+                                                    <h5>否</h5>
+                                                {% endifequal %}
+                                            </td>
+                                            <td class="col-sm-1">
+                                                {% ifequal auto_detail.0.isPress 1 %}
+                                                    <h5>是</h5>
+                                                {% else %}
+                                                    <h5>否</h5>
+                                                {% endifequal %}
+                                            </td>
+                                            <td class="col-sm-1">
+                                                {% ifequal auto_detail.0.isUts 1 %}
+                                                    <h5>是</h5>
+                                                {% else %}
+                                                    <h5>否</h5>
+                                                {% endifequal %}
+                                            </td>
+                                            <td class="col-md-1">
+                                                {% ifequal auto_detail.0.status 0 %}
+                                                    <font color="gray">Waiting</font>
+                                                {% endifequal %}
+                                                {% ifequal auto_detail.0.status 1 %}
+                                                    <font color="cream">Ready</font>
+                                                {% endifequal %}
+                                                {% ifequal auto_detail.0.status 2 %}
+                                                    <font color="green">Running</font>
+                                                {% endifequal %}
+                                                {% ifequal auto_detail.0.status 3 %}
+                                                    <font color="red">Error</font>
+                                                {% endifequal %}
+                                                {% ifequal auto_detail.0.status 4 %}
+                                                    <font color="blue">Finished</font>
+                                                {% endifequal %}
+                                                {% ifequal auto_detail.0.status 5 %}
+                                                    <font color="orange">Canceled</font>
+                                                {% endifequal %}
+                                                {% ifequal auto_detail.0.status 6 %}
+                                                    <font color="orange">Canceling</font>
+                                                {% endifequal %}
+                                            <td class="col-md-1">
+                                                <button type="button" class="btn btn-block btn-success restart">
+                                                    重启
+                                                </button>
+                                                <button type="button" class="btn btn-block btn-success cancel">
+                                                    取消
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="box box-primary">
+                                    <div class="box-header with-border"><h5>Base HostName</h5></div>
+                                    <pre class="prettyprint">{{ auto_detail.0.baseHostName }}</pre>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="box box-danger">
+                                    <div class="box-header with-border"><h5>Test HostName</h5></div>
+                                    <pre class="prettyprint">{{ auto_detail.0.testHostName }}</pre>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="box box-primary">
+                                    <div class="box-header with-border"><h5>Base Node</h5></div>
+                                    <pre class="prettyprint">{{ auto_detail.0.baseNode }}</pre>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="box box-danger">
+                                    <div class="box-header with-border"><h5>Test Node</h5></div>
+                                    <pre class="prettyprint">{{ auto_detail.0.testNode }}</pre>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="box box-primary">
+                                    <div class="box-header with-border"><h5>Base Nginx</h5></div>
+                                    <pre class="prettyprint">{{ auto_detail.0.baseNginx }}</pre>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="box box-danger">
+                                    <div class="box-header with-border"><h5>Test Nginx</h5></div>
+                                    <pre class="prettyprint">{{ auto_detail.0.testNginx }}</pre>
+                                </div>
+                            </div>
+                            <div class="col-md-12 pic">
+                                <div class="box box-danger">
+                                    <div class="box-header with-border"><h5>PIC系统图像对比 Result</h5></div>
+                                    <pre class="prettyprint">
+                                        {% autoescape off %}
+                                            {{ auto_detail.0.testPicResult }}
+                                        {% endautoescape %}
+                                    </pre>
+                                </div>
+                            </div>
+                            <div class="col-md-12 pagetest">
+                                <div class="box box-danger">
+                                    <div class="box-header with-border"><h5>Pagetest回归测试 Result</h5></div>
+                                    <pre class="prettyprint">
+                                        {% autoescape off %}
+                                            {{ auto_detail.0.testPagetestResult }}
+                                        {% endautoescape %}</pre>
+                                    </pre>
+                                </div>
+                            </div>
+                            <div class="col-md-12 interface">
+                                <div class="box box-danger">
+                                    <div class="box-header with-border"><h5>特殊结果接口比对 Result</h5></div>
+                                    <pre class="prettyprint">
+                                        {% autoescape off %}
+                                            {{ auto_detail.0.testInterfaceResult }}
+                                        {% endautoescape %}
+                                    </pre>
+                                </div>
+                            </div>
+                            <div class="col-md-12 press">
+                                <div class="box box-danger">
+                                    <div class="box-header with-border"><h5>自动压力测试 Result</h5></div>
+                                    <pre class="prettyprint">
+                                        {% autoescape off %}
+                                            {{ auto_detail.0.testPressResult }}
+                                        {% endautoescape %}</pre>
+                                    </pre>
+                                </div>
+                            </div>
+                            <div class="col-md-12 uts">
+                                <div class="box box-danger">
+                                    <div class="box-header with-border"><h5>UTS交互验证测试 Result</h5></div>
+                                    <pre class="prettyprint">
+                                        {% autoescape off %}
+                                            {{ auto_detail.0.testUtsResult }}
+                                        {% endautoescape %}</pre>
+                                    </pre>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="box box-danger">
+                                    <div class="box-header with-border"><h5>Log信息</h5></div>
+                                    <pre class="prettyprint">{{ auto_detail.0.log }}</pre>
+                                </div>
+                            </div>
+
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        $('.cancel').click(function () {
+            var line_id = $(this).parent().parent().attr('req_id');
+            $.ajax({
+                type: "POST",
+                url: "/autoFront/cancel/",
+                async: true,
+                data: {
+                    'line_id': line_id
+                },
+                dataType: 'JSON',
+                success: function (obj) {
+                    if (obj.status) {
+                        location.reload();
+                    } else {
+                        $('#error_xml').text(obj.error);
+                    }
+                },
+                error: function () {
+                }
+            });
+
+        })
+        $('.restart').click(function () {
+            var line_id = $(this).parent().parent().attr('req_id');
+            $.ajax({
+                type: "POST",
+                url: "/autoFront/cancel/",
+                async: true,
+                data: {
+                    'line_id': line_id
+                },
+                dataType: 'JSON',
+                success: function (obj) {
+                    if (obj.status) {
+                        location.reload();
+                    } else {
+                        $('#error_xml').text(obj.error);
+                    }
+                },
+                error: function () {
+                }
+            });
+
+        })
+
+        $(function () {
+
+            var pic =
+            {{ auto_detail.0.isPic }}
+            var pagetest =
+            {{ auto_detail.0.isPagetest }}
+            var interface =
+            {{ auto_detail.0.isInterface }}
+            var press =
+            {{ auto_detail.0.isPress }}
+            var uts =
+            {{ auto_detail.0.isUts }}
+
+            if (pic == 0) {
+                $('.pic').css({'display': 'none'});
+            }
+            if (pagetest == 0) {
+                $('.pagetest').css({'display': 'none'});
+            }
+            if (interface == 0) {
+                $('.interface').css({'display': 'none'});
+            }
+            if (press == 0) {
+                $('.press').css({'display': 'none'});
+            }
+            if (uts == 0) {
+                $('.uts').css({'display': 'none'});
+            }
+        })
+    </script>
+{% endblock content_body %}

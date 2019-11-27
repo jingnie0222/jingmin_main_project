@@ -1,0 +1,141 @@
+{% extends 'content.html' %}
+{% block head %}
+{% include 'head.html' %}
+{% endblock head %}
+{% block header %}
+{% include 'header.html' %}
+{% endblock header %}
+{% block aside %}
+{% include 'aside.html' %}
+{% endblock aside %}
+{% block footer %}
+{% include 'footer.html' %}
+{% endblock footer %}
+
+{% block custom_head %}
+<!--link rel="stylesheet"
+    href="http://10.134.104.40/django_statics/AdminLTE/bower_components/select2/dist/css/select2.min.css"-->
+<link rel="stylesheet"
+  href="http://10.134.104.40/django_statics/AdminLTE/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+<link rel="stylesheet"
+  href="http://10.134.104.40/django_statics/AdminLTE/bower_components/Ionicons/css/ionicons.min.css">
+{% endblock custom_head %}
+
+{% block custom_script %}
+<script src="http://10.134.104.40/django_statics/AdminLTE/bower_components/datatables.net/js/jquery.dataTables.min.js">
+</script>
+<script
+  src="http://10.134.104.40/django_statics/AdminLTE/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js">
+</script>
+<script src="http://10.134.104.40/django_statics/AdminLTE/bower_components/jquery-slimscroll/jquery.slimscroll.min.js">
+</script>
+{% endblock custom_script %}
+
+<!-- Content Header -->
+{% block content_head %}
+<section class="content-header">
+  <h1>
+    欢迎来到质保平台
+    <small>welcome</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i>路径1</a></li>
+    <li class="active">路径2</li>
+  </ol>
+</section>
+{% endblock content_head %}
+
+<!-- Main content -->
+{% block content_body %}
+    <section class="content container-fluid">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="tile">
+                                <div class="tile-body">
+                                    <span id="error_xml" style="color:red;font-size:15px;"></span>
+                                </br>
+                                    <form class="form-horizontal" method="post" id="markdown_form">
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            {{ form.media }}
+                                            {{ form.as_p }}  
+                                        </div>
+                                        <div align="center">
+                                            <button class="btn btn-default" type="submit" value="Submit" id="btn-submit">发布</button>
+                                            <a role="button" class="btn btn-default" href="/hx_inner_wiki/inner_wiki_list/">返回</a>
+
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+
+
+
+
+    <script>
+        //add a wiki
+        $('#btn-submit').click(function () {
+            //alert("bbb")
+            var title = $('#id_wikititle').val()
+
+            var content = $('#editor').val()
+            var wikitag = $('#id_wikitag').val()
+            var wikicontent = $('#id_wikicontent').val()
+            if (title != "" && wikitag != "" && wikicontent != "") {
+                //alert("ccc")
+                $.ajax({
+                    type: "POST",
+                    url: "/hx_inner_wiki/inner_wiki_new/",
+                    async: true,
+                    traditional: true,
+                    data: $('#markdown_form').serialize(),
+                    dataType: 'JSON',
+
+                    alert("data: ", data)
+
+                    success: function (obj) {
+                        alert('ccc')
+                        if (obj.status) {
+                            window.location.href = 'hx_inner_wiki/inner_wiki_list/';
+                        } else {
+                            $('#error_xml').text(obj.error);
+                        }
+                    },
+                    //error: function () {
+                        //alert('ddd')
+
+                    error:function(XMLHttpRequest, textStatus){
+                        //alert(XMLHttpRequest);
+                        alert(textStatus);
+
+
+                    },
+                });
+            } else {
+                alert("eee")
+                $('#error_xml').text("标题，摘要，内容，标签都为必填")
+            }
+
+        })
+    </script>
+
+{% endblock content_body %}
